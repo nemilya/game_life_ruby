@@ -1,18 +1,26 @@
-Game Life by Ruby and Minitest.
+Game Life by Ruby and Minitest
+------------------------------
 
 work in progress
 
-Install RVM, Ruby, bundle
+Install:
+* RVM (rbenv)
+* Ruby
+* bundler
 
-Start bundle in folder
+Start `bundle` in folder:
 
-  bundle
+```console
+bundle
+```
 
-Start Guard for autotest (in vagrant):
+Start Guard for autotest (`-p` if works in Vagrant):
 
-  guard -p
+```console
+guard -p
+```
 
-Edit 'lib/*', 'test/*'.
+Edit `lib/*`, `test/*`.
 
 Planned:
 
