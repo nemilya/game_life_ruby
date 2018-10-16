@@ -25,41 +25,80 @@ Edit `lib/*`, `test/*`.
 Planned:
 
 ```ruby
-class Entity
-  def initialize(position, symbol)
-    @position = { r: position[:r], c: position[:c]}
-    @symbol   = symbol
+
+class GameLevel
+  attr_reader :cnt_rows
+  attr_reader :cnt_cols
+
+  def initialize(map_ascii)
+    # todo
   end
 
-  def symbol
-    @symbol
+  def set_cell(r, c, cell)
+    # todo
+  end
+
+  def map_ascii
+    # todo
   end
 end
 
-class EntityGrass < Entity
-  def initialize(position)
-    super(position, '.')
+class GameLogicBase
+  def calculate_next_generation_cell_at(row, col, current_generation)
+    # abstract
   end
 end
 
-class GameWorld
-  def initialize(rows, cols, default_map_entity)
-    @entities = []
-    @default_map_entity = default_map_entity
-    init_default
+class GameLogicClassic < GameLogicBase
+  def calculate_next_generation_cell_at(row, col, current_generation)
+    # todo implement
+  end
+end
+
+class GameManager
+  def initialize(map_ascii, game_logic=GameLogicClassic.new)
+    @generation_number  = 1
+    @current_generation = GameLevel.new(map_ascii)
+    @next_generation    = GameLevel.new(map_ascii)
+    @life_logic = game_logic
   end
 
-  def init_default
-    (0..rows-1).each do |r|
-      (0..cols-1).each do |c|
-        entity = default_map_entity.new({ r: r, c: c})
-        add_entity(entity)
+  def generation_number
+    @generation_number
+  end
+
+  def next_generation
+    generate_next_generation
+    swap_generations
+    increment_generation_number
+  end
+
+  def map_ascii
+    @current_generation.map_ascii
+  end
+
+private
+  
+  def generate_next_generation
+    (0..@current_generation.cnt_rows).each do |r|
+      (0..@current_generation.cnt_cols).each do |c|
+        next_generation_cell = @life_logic.calculate_next_generation_cell_at(r, c, @current_generation)
+        @next_generation.set_cell(r, c, next_generation_cell)
       end
     end
   end
 
-  def add_entity(entity)
-    @entities << entity
+  def swap_generations
+    tmp_generation = @current_generation
+    @current_generation = @next_generation
+    @next_generation = tmp_generation
   end
+
+  def increment_generation_number
+    @generation_number += 1
+  end
+
 end
+
+
 ```
