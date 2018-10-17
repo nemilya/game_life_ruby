@@ -22,9 +22,32 @@ guard -p
 
 Edit `lib/*`, `test/*`.
 
-Planned:
+Concept:
+
+![Game Life Concept](GameLifeConcept.png)
 
 ```ruby
+
+class Cell
+
+  BUSY_ASCII_STATES = {
+    '.' => false,
+    'o' => true
+  }
+
+  def initializer(state_from_ascii=nil)
+    @is_busy = if state_from_ascii
+                 BUSY_ASCII_STATES[state_from_ascii]
+               else
+                 false
+               end
+  end
+  
+  def busy?
+    @is_busy
+  end
+  
+end
 
 class GameLevel
   attr_reader :cnt_rows
